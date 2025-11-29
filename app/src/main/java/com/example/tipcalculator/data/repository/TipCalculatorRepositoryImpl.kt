@@ -9,6 +9,6 @@ class TipCalculatorRepositoryImpl: TipCalculatorRepository {
         tip: Tip,
         billAmount: Double
     ): Double {
-        return (billAmount * (tip.percent / 100))
+        return round((billAmount * (tip.percent / 100)))
     }
 }
