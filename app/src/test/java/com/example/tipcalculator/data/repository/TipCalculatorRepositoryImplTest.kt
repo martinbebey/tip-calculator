@@ -2,6 +2,7 @@ package com.example.tipcalculator.data.repository
 
 import com.example.tipcalculator.data.models.Tip
 import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -46,6 +47,6 @@ class TipCalculatorRepositoryImplTest{
         val calculatedTip = TipCalculatorRepositoryImpl().calculateTip(tip, billAmount)
 
         // Then
-        assertThat(calculatedTip).isEqualTo(100.0)
+        assertWithMessage("bill amount = $billAmount, tip% = $percent, calculated tip = $calculatedTip").that(calculatedTip).isEqualTo(100.0)
     }
 }
