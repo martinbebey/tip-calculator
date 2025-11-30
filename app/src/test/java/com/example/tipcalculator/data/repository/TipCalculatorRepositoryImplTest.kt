@@ -4,6 +4,7 @@ import com.example.tipcalculator.data.models.Tip
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class TipCalculatorRepositoryImplTest{
@@ -48,5 +49,44 @@ class TipCalculatorRepositoryImplTest{
 
         // Then
         assertWithMessage("bill amount = $billAmount, tip% = $percent, calculated tip = $calculatedTip").that(calculatedTip).isEqualTo(100.0)
+    }
+
+    @Test
+    fun `calculateTip should throw IllegalArgumentException for negative tip Amount`(){
+        // Given
+        val percent = -100f
+        val billAmount = 100.0
+        val tip = Tip(0, percent)
+
+        // Then
+        assertThrows(IllegalArgumentException::class.java){
+            TipCalculatorRepositoryImpl().calculateTip(tip, billAmount)
+        }
+    }
+
+    @Test
+    fun `exception thrown when tip percent is greater than 100`(){
+        // Given
+        val percent = 101f
+        val billAmount = 100.0
+        val tip = Tip(0, percent)
+
+        // Then
+        assertThrows(IllegalArgumentException::class.java){
+            TipCalculatorRepositoryImpl().calculateTip(tip, billAmount)
+        }
+    }
+
+    @Test
+    fun `exception thrown when bill amount is negative`(){
+        // Given
+        val percent = 50f
+        val billAmount = -100.0
+        val tip = Tip(0, percent)
+
+        // Then
+        assertThrows(IllegalArgumentException::class.java){
+            TipCalculatorRepositoryImpl().calculateTip(tip, billAmount)
+        }
     }
 }
