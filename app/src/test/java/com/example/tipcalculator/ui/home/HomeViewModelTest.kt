@@ -33,6 +33,21 @@ class HomeViewModelTest {
         assertThat(initialTipState).isEqualTo(expected)
     }
 
+    @Test
+    fun `getTip should getTip and update the state correctly`(){
+        // Given
+        val percent = 10f
+        val billAmount = 200.0
+
+        // When
+        homeViewModel.getTipAmount(percent, billAmount)
+        val actualState = homeViewModel.homeState.tipAmount
+        val expectedTipStateAmount = 20
+
+        // Then
+        assertThat(actualState).isEqualTo(expectedTipStateAmount)
+    }
+
     /**
      * Executed each test to clean up resources, reset state or release any initialized resource during before.
      */
