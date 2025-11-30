@@ -19,7 +19,8 @@ class HomeViewModel(
     fun getTipAmount(percent: Float, billAmount: Double) {
         val tip = Tip(id = Date().time, percent = percent)
         homeState = homeState.copy(
-            tipAmount = repository.calculateTip(tip, billAmount)
+            tipAmount = repository.calculateTip(tip, billAmount),
+            error = if(percent < 0) "ERROR" else null
         )
     }
 
@@ -31,7 +32,8 @@ class HomeViewModel(
 }
 
 data class HomeState(
-    val tipAmount: Double = 0.0
+    val tipAmount: Double = 0.0,
+    val error: String? = null
 )
 
 @Suppress("UNCHECKED_CAST")

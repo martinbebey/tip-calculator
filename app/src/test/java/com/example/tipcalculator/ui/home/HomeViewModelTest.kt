@@ -1,5 +1,6 @@
 package com.example.tipcalculator.ui.home
 
+import androidx.core.os.persistableBundleOf
 import com.example.tipcalculator.data.repository.TipCalculatorRepositoryImpl
 import com.google.common.truth.Truth.assertThat
 
@@ -46,6 +47,19 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `getTip should produce an error in the tip state when the tip percent is negative`(){
+        // Given
+        val tipPrecent = -10f
+        val billAmount = 100.0
+
+        // When
+        homeViewModel.getTipAmount(percent = tipPrecent, billAmount = billAmount)
+
+        // Then
+        assertThat(homeViewModel.homeState.error).isNotNull()
+    }
+
+    @Test
     fun `reset should reset state back to initial state`(){
         // Given
         val percent = 10f
@@ -59,7 +73,6 @@ class HomeViewModelTest {
         // Then
         assertThat(actualState).isEqualTo(expectedTipStateAmount)
     }
-
 
 
     /**
