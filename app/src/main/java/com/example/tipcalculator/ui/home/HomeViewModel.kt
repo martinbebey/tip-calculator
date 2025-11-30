@@ -18,10 +18,17 @@ class HomeViewModel(
 
     fun getTipAmount(percent: Float, billAmount: Double) {
         val tip = Tip(id = Date().time, percent = percent)
-        homeState = homeState.copy(
-            tipAmount = repository.calculateTip(tip, billAmount),
-            error = if(percent < 0) "ERROR" else null
-        )
+        try {
+            homeState = homeState.copy(
+                tipAmount = repository.calculateTip(tip, billAmount),
+                error = null
+            )
+        }
+        catch (exception: Exception) {
+            homeState = homeState.copy(
+                error = exception.message
+            )
+        }
     }
 
     fun reset() {

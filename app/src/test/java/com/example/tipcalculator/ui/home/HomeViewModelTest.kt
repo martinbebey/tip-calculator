@@ -60,6 +60,19 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `getTip should not produce an error in the tip state when the tip percent and bill amount are valid`(){
+        // Given
+        val tipPrecent = 10f
+        val billAmount = 100.0
+
+        // When
+        homeViewModel.getTipAmount(percent = tipPrecent, billAmount = billAmount)
+
+        // Then
+        assertThat(homeViewModel.homeState.error).isNull()
+    }
+
+    @Test
     fun `reset should reset state back to initial state`(){
         // Given
         val percent = 10f

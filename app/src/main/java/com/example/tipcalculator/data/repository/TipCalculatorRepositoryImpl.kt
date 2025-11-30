@@ -9,14 +9,10 @@ class TipCalculatorRepositoryImpl: TipCalculatorRepository {
         tip: Tip,
         billAmount: Double
     ): Double {
-        try {
-            if (tip.percent < 0) throw IllegalArgumentException("Tip percent cannot be negative")
-            else if (tip.percent > 100) throw IllegalArgumentException("Tip percent cannot be greater than 100%")
-            else if (billAmount < 0) throw IllegalArgumentException("Bill amount cannot be negative")
-        }
-        catch (exception: Exception){
+        if (tip.percent < 0) throw IllegalArgumentException("Tip percent cannot be negative")
+        else if (tip.percent > 100) throw IllegalArgumentException("Tip percent cannot be greater than 100%")
+        else if (billAmount < 0) throw IllegalArgumentException("Bill amount cannot be negative")
 
-        }
         return round((billAmount * (tip.percent / 100)))
     }
 }
