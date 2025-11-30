@@ -1,13 +1,11 @@
 package com.example.tipcalculator.ui.home
 
 import com.example.tipcalculator.data.repository.TipCalculatorRepositoryImpl
-import org.junit.Assert.*
 import com.google.common.truth.Truth.assertThat
 
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.math.exp
 
 class HomeViewModelTest {
 
@@ -36,6 +34,20 @@ class HomeViewModelTest {
     @Test
     fun `getTip should getTip and update the state correctly`(){
         // Given
+        val initialTipState = homeViewModel.homeState
+        homeViewModel.getTipAmount(percent = 10f, billAmount = 100.0)
+
+        // When
+        homeViewModel.reset()
+        val tipStateAfterReset = homeViewModel.homeState
+
+        // Then
+        assertThat(tipStateAfterReset).isEqualTo(initialTipState)
+    }
+
+    @Test
+    fun `reset should reset state back to initial state`(){
+        // Given
         val percent = 10f
         val billAmount = 200.0
 
@@ -47,6 +59,8 @@ class HomeViewModelTest {
         // Then
         assertThat(actualState).isEqualTo(expectedTipStateAmount)
     }
+
+
 
     /**
      * Executed each test to clean up resources, reset state or release any initialized resource during before.
