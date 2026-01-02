@@ -15,12 +15,15 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.traceEventStart
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tipcalculator.ui.theme.TipCalculatorTheme
+import com.example.tipcalculator.utils.TestTags
 
 @Composable
 fun HomeScreen(
@@ -31,7 +34,7 @@ fun HomeScreen(
     val (billAmount, setBillAmount) = rememberSaveable { mutableStateOf("") }
     val (tipPercent, setTipPercent) = rememberSaveable { mutableStateOf("") }
     HomeScreen(
-        modifier = modifier,
+        modifier = modifier.testTag(TestTags.homeScreen),
         homeState = homeState,
         onGetTipClick = {
             homeViewModel.getTipAmount(
@@ -70,6 +73,7 @@ private fun HomeScreen(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
+            modifier = Modifier.testTag(TestTags.billInputText)
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
@@ -79,19 +83,29 @@ private fun HomeScreen(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
+            modifier = Modifier.testTag(TestTags.tipInputText)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row {
-            Button(onClick = onGetTipClick) {
+            Button(
+                onClick = onGetTipClick,
+                modifier = Modifier.testTag(TestTags.getTipButton)
+            ) {
                 Text(text = "Get Tip")
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = onResetClick) {
+            Button(
+                onClick = onResetClick,
+                modifier = Modifier.testTag(TestTags.resetButton)
+            ) {
                 Text(text = "Clear")
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Tip amount ${homeState.tipAmount}")
+        Text(
+            text = "Tip amount ${homeState.tipAmount}",
+            modifier = Modifier.testTag(TestTags.tipText)
+        )
     }
 }
 
