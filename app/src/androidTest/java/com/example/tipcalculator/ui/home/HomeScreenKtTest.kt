@@ -1,11 +1,16 @@
 package com.example.tipcalculator.ui.home
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 import com.example.tipcalculator.data.repository.TipCalculatorRepository
 import com.example.tipcalculator.data.repository.TipCalculatorRepositoryImpl
 import com.example.tipcalculator.ui.theme.TipCalculatorTheme
+import com.example.tipcalculator.utils.TestTags
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -34,6 +39,16 @@ class HomeScreenKtTest{
 
     @Test
     fun app_launches(){
-        composeTestRule.onRoot().printToLog(tag = "homescreen")
+//        composeTestRule.onRoot().printToLog(tag = "homescreen")
+        composeTestRule.onNodeWithTag(TestTags.homeScreen).assertIsDisplayed()
     }
+
+    @Test
+    fun error_displayed_when_badData_isPassed(){
+        errorText().assertIsNotDisplayed()
+        homeViewModel.getTipAmount(-20f, 100.0)
+        errorText().assertExists()
+    }
+
+    private fun errorText() = composeTestRule.onNodeWithContentDescription("error")
 }

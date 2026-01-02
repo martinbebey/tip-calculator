@@ -1,5 +1,6 @@
 package com.example.tipcalculator.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -19,6 +21,8 @@ import androidx.compose.runtime.traceEventStart
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,6 +70,19 @@ private fun HomeScreen(
     onResetClick: () -> Unit
 ) {
     Column(modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+        AnimatedVisibility(visible = homeState.error != null) {
+            homeState.error?.let{
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.semantics {
+                        contentDescription = "error"
+                    }
+                )
+            }
+        }
+
         OutlinedTextField(
             value = billAmount,
             onValueChange = setBillAmount,
